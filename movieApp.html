@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Rating App</title>
+    <style>
+      .movie-item {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="movieForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" required minlength="2" />
+
+      <label for="rating">Rating (0-10):</label>
+      <input type="number" id="rating" required min="0" max="10" />
+
+      <button type="submit">Submit</button>
+    </form>
+    <div id="movieList"></div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        let title = "";
+        let rating = "";
+
+        $("#movieForm").submit(function (e) {
+          e.preventDefault();
+          addMovie();
+        });
+
+        function addMovie() {
+          title = $("#title").val();
+          rating = $("#rating").val();
+
+          if (title.length < 2 || rating < 0 || rating > 10) {
+            alert(
+              "Invalid input. Title must have at least 2 characters, and rating must be between 0 and 10."
+            );
+            return;
+          }
+
+          const movieItem = $('<div class="movie-item">').text(
+            "Title: " + title + ", Rating: " + rating
+          );
+          const removeButton = $("<button>")
+            .text("Remove")
+            .on("click", function () {
+              movieItem.remove();
+            });
+
+          movieItem.append(removeButton);
+
+          $("#movieList").append(movieItem);
+
+          $("#title").val("");
+          $("#rating").val("");
+        }
+      });
+    </script>
+  </body>
+</html>
